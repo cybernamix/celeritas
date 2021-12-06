@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+
 	"strings"
 
 	"github.com/fatih/color"
@@ -30,7 +31,6 @@ func doNew(appName string) {
 
 	//git clone the skeleton application
 	color.Green("\tCloning a Repository...please wait")
-
 	_, err := git.PlainClone("./"+appName, false, &git.CloneOptions{
 		URL:      "https://github.com/cybernamix/celeritas-app.git",
 		Progress: os.Stdout,
@@ -41,14 +41,14 @@ func doNew(appName string) {
 	}
 
 	// remove the .git directory
-	color.Yellow("\tRemoving .git ... still working!")
+	color.Yellow("\tRemoving .git file...")
 	err = os.RemoveAll(fmt.Sprintf("./%s/.git", appName))
 	if err != nil {
 		exitGracefully(err)
 	}
 
 	// create a ready to go .env file
-	color.Yellow("\tCreating .env file ... going well")
+	color.Yellow("\tCreating .env file ...")
 	data, err := templateFS.ReadFile("templates/env.txt")
 	if err != nil {
 		exitGracefully(err)
@@ -131,8 +131,8 @@ func doNew(appName string) {
 	}
 
 	// update the existing .go files with correct names/imports
-
 	color.Yellow("\tUpdating source files.....")
+
 	// change to the directory where new app has been created
 	os.Chdir("./" + appName)
 	//call updateSource from helpers.go - walks through all files and makes appropriate changes
@@ -148,7 +148,7 @@ func doNew(appName string) {
 		exitGracefully(err)
 	}
 	color.Green("\t........................................")
-	color.Green("\tAnd... we are all done building - " + appURL)
+	color.Green("\tWe are all done building " + appURL)
 	color.Green("\tGo forth and create something beautiful ;)")
 
 }
